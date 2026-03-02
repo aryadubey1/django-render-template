@@ -1,0 +1,7 @@
+{
+  "project_name": "My Django App",
+  "project_slug": "my_django_app",
+  "author": "Your Name",
+  "description": "A Django web app",
+  "primary_color": "#ff6b35"
+}
