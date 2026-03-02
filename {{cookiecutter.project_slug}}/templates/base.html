@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+{% raw %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{cookiecutter.project_name}}{% endblock %}</title>
+    <title>{% block title %}{% endraw %}{{cookiecutter.project_name}}{% raw %}{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block extra_css %}{% endblock %}
@@ -12,7 +12,7 @@
 
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="nav-brand">{{cookiecutter.project_name}}</a>
+            <a href="/" class="nav-brand">{% endraw %}{{cookiecutter.project_name}}{% raw %}</a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 {% if user.is_authenticated %}
@@ -30,14 +30,13 @@
                 {% endfor %}
             </div>
         {% endif %}
-
         {% block content %}{% endblock %}
     </main>
 
     <footer class="footer">
-        <p>&copy; {% now "Y" %} {{cookiecutter.project_name}}. Built by {{cookiecutter.author}}.</p>
+        <p>&copy; {% now "Y" %} {% endraw %}{{cookiecutter.project_name}}{% raw %}. Built by {% endraw %}{{cookiecutter.author}}{% raw %}.</p>
     </footer>
 
     {% block extra_js %}{% endblock %}
 </body>
-</html>
+</html>{% endraw %}
