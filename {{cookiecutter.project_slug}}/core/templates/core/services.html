@@ -1,0 +1,98 @@
+{% raw %}{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Services — {% endraw %}{{cookiecutter.project_name}}{% raw %}{% endblock %}
+{% block nav_services %}active{% endblock %}
+
+{% block content %}
+
+<!-- ===== PAGE HERO ===== -->
+<section class="page-hero">
+    <div class="hero-bg">
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-grid"></div>
+    </div>
+    <div class="container">
+        <span class="section-label reveal">What We Offer</span>
+        <h1 class="page-hero-title reveal reveal-delay-1">Our <span class="text-gradient">Services</span></h1>
+        <p class="page-hero-sub reveal reveal-delay-2">Everything you need, expertly delivered. Explore our full range of services below.</p>
+    </div>
+</section>
+
+<!-- ===== SERVICES GRID ===== -->
+<section class="section">
+    <div class="container">
+        <div class="services-big-grid">
+            {% for service in services %}
+            <div class="service-big-card reveal">
+                <div class="service-card-num">{{ forloop.counter|stringformat:"02d" }}</div>
+                <div class="service-card-icon">
+                    <i class="fa-solid {{ service.icon|default:'fa-star' }}"></i>
+                </div>
+                <h3>{{ service.name }}</h3>
+                <p>{{ service.description }}</p>
+                <a href="{% url 'contact' %}" class="card-link">Enquire <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            {% empty %}
+            {% for i in "123456" %}
+            <div class="service-big-card reveal">
+                <div class="service-card-num">0{{ forloop.counter }}</div>
+                <div class="service-card-icon"><i class="fa-solid fa-gear"></i></div>
+                <h3>Service Name</h3>
+                <p>Describe this service here. Add your real services through the Django admin panel.</p>
+                <a href="{% url 'contact' %}" class="card-link">Enquire <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ===== PROCESS ===== -->
+<section class="section bg-alt">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-label">How It Works</span>
+            <h2 class="section-title">Our <span class="text-gradient">Process</span></h2>
+        </div>
+        <div class="process-steps">
+            <div class="process-step reveal">
+                <div class="step-number">1</div>
+                <div class="step-connector"></div>
+                <h3>Consultation</h3>
+                <p>We start by understanding your goals, challenges, and vision in depth.</p>
+            </div>
+            <div class="process-step reveal reveal-delay-1">
+                <div class="step-number">2</div>
+                <div class="step-connector"></div>
+                <h3>Planning</h3>
+                <p>We craft a detailed plan and timeline tailored to your specific needs.</p>
+            </div>
+            <div class="process-step reveal reveal-delay-2">
+                <div class="step-number">3</div>
+                <div class="step-connector"></div>
+                <h3>Execution</h3>
+                <p>Our team gets to work, keeping you updated every step of the way.</p>
+            </div>
+            <div class="process-step reveal reveal-delay-3">
+                <div class="step-number">4</div>
+                <h3>Delivery</h3>
+                <p>We deliver results and continue to support you beyond the project.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-banner">
+    <div class="cta-orb"></div>
+    <div class="container">
+        <div class="cta-content reveal">
+            <h2>Not Sure Which Service You Need?</h2>
+            <p>Talk to us and we'll help you find the right fit.</p>
+            <a href="{% url 'contact' %}" class="btn btn-white">Book a Free Consultation <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}{% endraw %}

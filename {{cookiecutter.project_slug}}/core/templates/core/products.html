@@ -1,0 +1,96 @@
+{% raw %}{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Products — {% endraw %}{{cookiecutter.project_name}}{% raw %}{% endblock %}
+{% block nav_products %}active{% endblock %}
+
+{% block content %}
+
+<!-- ===== PAGE HERO ===== -->
+<section class="page-hero">
+    <div class="hero-bg">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-grid"></div>
+    </div>
+    <div class="container">
+        <span class="section-label reveal">What We Offer</span>
+        <h1 class="page-hero-title reveal reveal-delay-1">Our <span class="text-gradient">Products</span></h1>
+        <p class="page-hero-sub reveal reveal-delay-2">Explore our range of premium products, crafted with quality and care.</p>
+    </div>
+</section>
+
+<!-- ===== FILTER BAR ===== -->
+<section class="filter-bar-section">
+    <div class="container">
+        <div class="filter-bar reveal">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="featured">Featured</button>
+            <button class="filter-btn" data-filter="new">New Arrivals</button>
+            <!-- Add more categories as needed -->
+        </div>
+    </div>
+</section>
+
+<!-- ===== PRODUCTS GRID ===== -->
+<section class="section">
+    <div class="container">
+        <div class="products-grid" id="products-grid">
+            {% for product in products %}
+            <div class="product-card reveal" data-category="{{ product.category|default:'all' }}">
+                <div class="product-img">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <div class="product-img-placeholder">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+                    {% endif %}
+                    {% if product.is_featured %}
+                    <span class="product-badge">Featured</span>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description|truncatewords:15 }}</p>
+                    <div class="product-footer">
+                        {% if product.price %}
+                        <span class="product-price">₹{{ product.price }}</span>
+                        {% endif %}
+                        <a href="{% url 'contact' %}" class="btn btn-small">Enquire</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            {% for i in "123456" %}
+            <div class="product-card reveal">
+                <div class="product-img">
+                    <div class="product-img-placeholder"><i class="fa-solid fa-box-open"></i></div>
+                </div>
+                <div class="product-info">
+                    <h3>Product Name</h3>
+                    <p>Add your real products through the Django admin panel.</p>
+                    <div class="product-footer">
+                        <span class="product-price">₹0.00</span>
+                        <a href="{% url 'contact' %}" class="btn btn-small">Enquire</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-banner">
+    <div class="cta-orb"></div>
+    <div class="container">
+        <div class="cta-content reveal">
+            <h2>Looking for Something Specific?</h2>
+            <p>We can customize our products to meet your exact requirements.</p>
+            <a href="{% url 'contact' %}" class="btn btn-white">Talk to Us <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}{% endraw %}

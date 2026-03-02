@@ -1,0 +1,139 @@
+{% raw %}{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About — {% endraw %}{{cookiecutter.project_name}}{% raw %}{% endblock %}
+{% block nav_about %}active{% endblock %}
+
+{% block content %}
+
+<!-- ===== PAGE HERO ===== -->
+<section class="page-hero">
+    <div class="hero-bg">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-grid"></div>
+    </div>
+    <div class="container">
+        <span class="section-label reveal">Our Story</span>
+        <h1 class="page-hero-title reveal reveal-delay-1">About <span class="text-gradient">Us</span></h1>
+        <p class="page-hero-sub reveal reveal-delay-2">We are more than a business. We're a team of dedicated people driven by purpose and passion.</p>
+    </div>
+</section>
+
+<!-- ===== STORY ===== -->
+<section class="section">
+    <div class="container split-layout">
+        <div class="split-text reveal">
+            <span class="section-label">Who We Are</span>
+            <h2 class="section-title">A Story of <span class="text-gradient">Passion</span></h2>
+            <p>Founded with a simple idea — that great work comes from genuine care — we've grown into a trusted name in our field. Every project we take on is treated with the same dedication as if it were our own.</p>
+            <p>We believe in long-term partnerships, transparent communication, and delivering results that exceed expectations every single time.</p>
+        </div>
+        <div class="split-visual reveal reveal-delay-2">
+            <div class="about-image-block">
+                <div class="about-img-placeholder">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Your Image Here</span>
+                </div>
+                <div class="about-badge-float">
+                    <i class="fa-solid fa-award"></i>
+                    <div>
+                        <strong>Est. 2024</strong>
+                        <span>Trusted Brand</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== VALUES ===== -->
+<section class="section bg-alt">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-label">What Drives Us</span>
+            <h2 class="section-title">Our Core <span class="text-gradient">Values</span></h2>
+        </div>
+        <div class="values-grid">
+            <div class="value-item reveal">
+                <div class="value-number">01</div>
+                <h3>Integrity</h3>
+                <p>We do what we say and say what we do. No shortcuts, no compromises.</p>
+            </div>
+            <div class="value-item reveal reveal-delay-1">
+                <div class="value-number">02</div>
+                <h3>Excellence</h3>
+                <p>We hold ourselves to the highest standard in everything we deliver.</p>
+            </div>
+            <div class="value-item reveal reveal-delay-2">
+                <div class="value-number">03</div>
+                <h3>Innovation</h3>
+                <p>We stay ahead by constantly evolving, learning, and pushing boundaries.</p>
+            </div>
+            <div class="value-item reveal reveal-delay-3">
+                <div class="value-number">04</div>
+                <h3>Community</h3>
+                <p>We invest in people — our clients, our team, and our community.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TEAM ===== -->
+<section class="section">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-label">The People</span>
+            <h2 class="section-title">Meet the <span class="text-gradient">Team</span></h2>
+            <p>Replace these placeholders with your real team members.</p>
+        </div>
+        <div class="team-grid">
+            {% for member in team_members %}
+            <div class="team-card reveal">
+                <div class="team-avatar">
+                    {% if member.photo %}
+                        <img src="{{ member.photo.url }}" alt="{{ member.name }}">
+                    {% else %}
+                        <div class="avatar-placeholder"><i class="fa-solid fa-user"></i></div>
+                    {% endif %}
+                </div>
+                <h3>{{ member.name }}</h3>
+                <span class="team-role">{{ member.role }}</span>
+                <p>{{ member.bio }}</p>
+            </div>
+            {% empty %}
+            <div class="team-card reveal">
+                <div class="team-avatar"><div class="avatar-placeholder"><i class="fa-solid fa-user"></i></div></div>
+                <h3>Team Member</h3>
+                <span class="team-role">Role / Position</span>
+                <p>Add your team members via the admin panel.</p>
+            </div>
+            <div class="team-card reveal reveal-delay-1">
+                <div class="team-avatar"><div class="avatar-placeholder"><i class="fa-solid fa-user"></i></div></div>
+                <h3>Team Member</h3>
+                <span class="team-role">Role / Position</span>
+                <p>Add your team members via the admin panel.</p>
+            </div>
+            <div class="team-card reveal reveal-delay-2">
+                <div class="team-avatar"><div class="avatar-placeholder"><i class="fa-solid fa-user"></i></div></div>
+                <h3>Team Member</h3>
+                <span class="team-role">Role / Position</span>
+                <p>Add your team members via the admin panel.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-banner">
+    <div class="cta-orb"></div>
+    <div class="container">
+        <div class="cta-content reveal">
+            <h2>Want to Join Our Team?</h2>
+            <p>We're always looking for talented people who share our values.</p>
+            <a href="{% url 'contact' %}" class="btn btn-white">Get In Touch <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}{% endraw %}
