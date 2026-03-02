@@ -1,149 +1,227 @@
 {% raw %}{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endraw %}{{cookiecutter.project_name}}{% raw %}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{% endraw %}{{cookiecutter.description}}{% raw %}{% endblock %}">
 
-    <!-- Fonts -->
+    <!-- Premium Fonts: Bricolage Grotesque (display) + Plus Jakarta Sans (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
 
-    <!-- Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['"Bricolage Grotesque"', 'sans-serif'],
+              body: ['"Plus Jakarta Sans"', 'sans-serif'],
+            },
+            colors: {
+              primary: '{% endraw %}{{cookiecutter.primary_color}}{% raw %}',
+              dark: {
+                bg:      '#0e1118',
+                surface: '#151923',
+                card:    '#1c2130',
+                border:  '#252d3d',
+                muted:   '#8892a4',
+                text:    '#c8d0e0',
+                bright:  '#eef2ff',
+              },
+              light: {
+                bg:      '#fafaf8',
+                surface: '#f2f2ef',
+                card:    '#ffffff',
+                border:  '#e2e2dc',
+                muted:   '#6b6b5f',
+                text:    '#2c2c28',
+                bright:  '#0f0f0c',
+              },
+            },
+            animation: {
+              'float': 'float 7s ease-in-out infinite alternate',
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4,0,0.6,1) infinite',
+              'fade-up': 'fadeUp 0.6s ease both',
+              'scroll-hint': 'scrollHint 2s ease infinite',
+            },
+            keyframes: {
+              float: { '0%': { transform: 'translate(0,0) scale(1)' }, '100%': { transform: 'translate(24px,16px) scale(1.04)' } },
+              fadeUp: { '0%': { opacity: '0', transform: 'translateY(24px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+              scrollHint: { '0%,100%': { opacity: '0.3', transform: 'scaleY(1)' }, '50%': { opacity: '1', transform: 'scaleY(0.6)' } },
+            },
+          }
+        }
+      }
+    </script>
 
+    <!-- Custom CSS (animations, grain, effects Tailwind can't do alone) -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
-<body>
 
-    <!-- ========== NAVBAR ========== -->
-    <header class="site-header" id="site-header">
-        <nav class="navbar">
-            <div class="nav-container">
+<body class="font-body bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text transition-colors duration-300 overflow-x-hidden">
 
-                <!-- Logo -->
-                <a href="{% url 'home' %}" class="nav-logo">
-                    <div class="logo-mark">
-                        <span class="logo-icon"><i class="fa-solid fa-bolt"></i></span>
-                    </div>
-                    <span class="logo-text">{% endraw %}{{cookiecutter.project_name}}{% raw %}</span>
-                </a>
+  <!-- Grain overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
 
-                <!-- Desktop Links -->
-                <ul class="nav-links" id="nav-links">
-                    <li><a href="{% url 'home' %}" class="nav-link {% block nav_home %}{% endblock %}">Home</a></li>
-                    <li><a href="{% url 'about' %}" class="nav-link {% block nav_about %}{% endblock %}">About</a></li>
-                    <li><a href="{% url 'services' %}" class="nav-link {% block nav_services %}{% endblock %}">Services</a></li>
-                    <li><a href="{% url 'products' %}" class="nav-link {% block nav_products %}{% endblock %}">Products</a></li>
-                    <li><a href="{% url 'contact' %}" class="nav-link nav-cta {% block nav_contact %}{% endblock %}">Contact Us</a></li>
-                </ul>
+  <!-- ===== NAVBAR ===== -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 h-[68px] transition-all duration-300">
+    <nav class="h-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
 
-                <!-- Hamburger -->
-                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+        <!-- Logo -->
+        <a href="{% url 'home' %}" class="flex items-center gap-2.5 group">
+          <div class="logo-mark w-9 h-9 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+            <i class="fa-solid fa-bolt text-white text-sm"></i>
+          </div>
+          <span class="font-display font-bold text-[1.05rem] tracking-tight text-light-bright dark:text-dark-bright">{% endraw %}{{cookiecutter.project_name}}{% raw %}</span>
+        </a>
 
-            </div>
-        </nav>
-    </header>
-
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-overlay" id="mobile-overlay"></div>
-    <div class="mobile-menu" id="mobile-menu">
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'services' %}">Services</a></li>
-            <li><a href="{% url 'products' %}">Products</a></li>
-            <li><a href="{% url 'contact' %}">Contact Us</a></li>
+        <!-- Desktop nav -->
+        <ul class="hidden md:flex items-center gap-1">
+          <li><a href="{% url 'home' %}"     class="nav-link {% block nav_home %}{% endblock %}">Home</a></li>
+          <li><a href="{% url 'about' %}"    class="nav-link {% block nav_about %}{% endblock %}">About</a></li>
+          <li><a href="{% url 'services' %}" class="nav-link {% block nav_services %}{% endblock %}">Services</a></li>
+          <li><a href="{% url 'products' %}" class="nav-link {% block nav_products %}{% endblock %}">Products</a></li>
+          <li>
+            <a href="{% url 'contact' %}" class="nav-cta {% block nav_contact %}{% endblock %}">
+              Contact Us
+            </a>
+          </li>
         </ul>
+
+        <!-- Right controls -->
+        <div class="flex items-center gap-2">
+          <!-- Dark/Light Toggle -->
+          <button id="theme-toggle" aria-label="Toggle theme"
+            class="w-9 h-9 rounded-lg flex items-center justify-content cursor-pointer transition-all duration-300 text-light-muted dark:text-dark-muted hover:text-light-bright dark:hover:text-dark-bright hover:bg-light-surface dark:hover:bg-dark-surface border border-transparent hover:border-light-border dark:hover:border-dark-border">
+            <i class="fa-solid fa-moon text-sm hidden dark:block mx-auto"></i>
+            <i class="fa-solid fa-sun text-sm block dark:hidden mx-auto"></i>
+          </button>
+          <!-- Hamburger -->
+          <button id="hamburger" aria-label="Toggle menu"
+            class="md:hidden w-9 h-9 rounded-lg flex flex-col items-center justify-center gap-[5px] cursor-pointer hover:bg-light-surface dark:hover:bg-dark-surface transition-all duration-300">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden"></div>
+  <div id="mobile-menu" class="fixed top-0 right-0 h-full w-72 z-50 translate-x-full transition-transform duration-300 ease-in-out
+       bg-light-card dark:bg-dark-card border-l border-light-border dark:border-dark-border
+       pt-20 px-6 shadow-2xl">
+    <ul class="flex flex-col gap-1">
+      <li><a href="{% url 'home' %}"     class="mobile-nav-link">Home</a></li>
+      <li><a href="{% url 'about' %}"    class="mobile-nav-link">About</a></li>
+      <li><a href="{% url 'services' %}" class="mobile-nav-link">Services</a></li>
+      <li><a href="{% url 'products' %}" class="mobile-nav-link">Products</a></li>
+      <li><a href="{% url 'contact' %}"  class="mobile-nav-link mt-2 btn-primary block text-center">Contact Us</a></li>
+    </ul>
+  </div>
+
+  <!-- ===== TOAST MESSAGES ===== -->
+  {% if messages %}
+  <div class="fixed top-20 right-4 z-[2000] flex flex-col gap-2 max-w-sm w-full">
+    {% for message in messages %}
+    <div class="toast-msg toast-{{ message.tags }} flex items-start gap-3 p-4 rounded-xl shadow-xl border
+        bg-light-card dark:bg-dark-card border-light-border dark:border-dark-border animate-fade-up">
+      <i class="fa-solid mt-0.5 flex-shrink-0
+        {% if message.tags == 'success' %}fa-circle-check text-emerald-500
+        {% elif message.tags == 'error' %}fa-circle-xmark text-red-500
+        {% else %}fa-circle-info text-blue-400{% endif %}"></i>
+      <span class="text-sm leading-relaxed">{{ message }}</span>
+      <button onclick="this.closest('.toast-msg').remove()" class="ml-auto text-light-muted dark:text-dark-muted hover:text-light-bright dark:hover:text-dark-bright flex-shrink-0 text-lg leading-none">&times;</button>
     </div>
+    {% endfor %}
+  </div>
+  {% endif %}
 
-    <!-- ========== MESSAGES ========== -->
-    {% if messages %}
-    <div class="messages-container">
-        {% for message in messages %}
-        <div class="toast toast-{{ message.tags }}">
-            <i class="fa-solid {% if message.tags == 'success' %}fa-circle-check{% elif message.tags == 'error' %}fa-circle-xmark{% else %}fa-circle-info{% endif %}"></i>
-            <span>{{ message }}</span>
-            <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+  <!-- ===== MAIN ===== -->
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="relative bg-light-surface dark:bg-dark-surface border-t border-light-border dark:border-dark-border pt-16 pb-0 overflow-hidden">
+    <!-- Top glow line -->
+    <div class="footer-glow-line"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12">
+
+        <!-- Brand -->
+        <div class="lg:col-span-1">
+          <a href="{% url 'home' %}" class="flex items-center gap-2.5 mb-4">
+            <div class="logo-mark w-9 h-9 rounded-lg flex items-center justify-center">
+              <i class="fa-solid fa-bolt text-white text-sm"></i>
+            </div>
+            <span class="font-display font-bold text-light-bright dark:text-dark-bright">{% endraw %}{{cookiecutter.project_name}}{% raw %}</span>
+          </a>
+          <p class="text-sm leading-relaxed text-light-muted dark:text-dark-muted mb-5 max-w-[240px]">{% endraw %}{{cookiecutter.description}}{% raw %}</p>
+          <div class="flex gap-2">
+            <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+            <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram text-xs"></i></a>
+            <a href="#" class="social-icon" aria-label="Twitter"><i class="fa-brands fa-x-twitter text-xs"></i></a>
+            <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in text-xs"></i></a>
+          </div>
         </div>
-        {% endfor %}
+
+        <!-- Navigate -->
+        <div>
+          <h4 class="footer-heading">Navigate</h4>
+          <ul class="space-y-2.5">
+            <li><a href="{% url 'home' %}"     class="footer-link">Home</a></li>
+            <li><a href="{% url 'about' %}"    class="footer-link">About Us</a></li>
+            <li><a href="{% url 'services' %}" class="footer-link">Services</a></li>
+            <li><a href="{% url 'products' %}" class="footer-link">Products</a></li>
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <h4 class="footer-heading">Company</h4>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link">Terms of Service</a></li>
+            <li><a href="#" class="footer-link">Careers</a></li>
+            <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter -->
+        <div>
+          <h4 class="footer-heading">Stay Updated</h4>
+          <p class="text-sm text-light-muted dark:text-dark-muted mb-4">Get the latest news and updates.</p>
+          <form class="newsletter-form" onsubmit="return false;">
+            <input type="email" placeholder="your@email.com" class="newsletter-input">
+            <button type="submit" class="newsletter-btn"><i class="fa-solid fa-arrow-right text-xs"></i></button>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="border-t border-light-border dark:border-dark-border py-5 text-center text-xs text-light-muted dark:text-dark-muted">
+        © {% now "Y" %} {% endraw %}{{cookiecutter.project_name}}{% raw %}. All rights reserved. Built with care by {% endraw %}{{cookiecutter.author}}{% raw %}.
+      </div>
     </div>
-    {% endif %}
+  </footer>
 
-    <!-- ========== MAIN CONTENT ========== -->
-    <main id="main-content">
-        {% block content %}{% endblock %}
-    </main>
-
-    <!-- ========== FOOTER ========== -->
-    <footer class="site-footer">
-        <div class="footer-glow"></div>
-        <div class="footer-container">
-
-            <div class="footer-brand">
-                <a href="{% url 'home' %}" class="nav-logo">
-                    <div class="logo-mark">
-                        <span class="logo-icon"><i class="fa-solid fa-bolt"></i></span>
-                    </div>
-                    <span class="logo-text">{% endraw %}{{cookiecutter.project_name}}{% raw %}</span>
-                </a>
-                <p class="footer-tagline">{% endraw %}{{cookiecutter.description}}{% raw %}</p>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-links-group">
-                <h4>Navigate</h4>
-                <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'about' %}">About Us</a></li>
-                    <li><a href="{% url 'services' %}">Services</a></li>
-                    <li><a href="{% url 'products' %}">Products</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-links-group">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-newsletter">
-                <h4>Stay Updated</h4>
-                <p>Subscribe to our newsletter for the latest news.</p>
-                <form class="newsletter-form" onsubmit="return false;">
-                    <input type="email" placeholder="Your email address">
-                    <button type="submit"><i class="fa-solid fa-arrow-right"></i></button>
-                </form>
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">
-            <p>© {% now "Y" %} {% endraw %}{{cookiecutter.project_name}}{% raw %}. All rights reserved. Built by {% endraw %}{{cookiecutter.author}}{% raw %}.</p>
-        </div>
-    </footer>
-
-    <!-- ========== JS ========== -->
-    <script src="{% static 'js/main.js' %}"></script>
-    {% block extra_js %}{% endblock %}
+  <script src="{% static 'js/main.js' %}"></script>
+  {% block extra_js %}{% endblock %}
 </body>
 </html>{% endraw %}
